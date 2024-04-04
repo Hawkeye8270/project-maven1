@@ -30,12 +30,44 @@
             <version>5.8.2</version>
             <scope>test</scope>
         </dependency>
-
-
+        <dependency>
+            <groupId>com.javarush</groupId>
+            <artifactId>desktop-game-engine</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
+
+            <!-- для подгрузки desktop-game-engine.jar -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+            </plugin>
+
+            <!-- создание jar и его компановка -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>
+                                org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader
+                            </mainClass>
+                        </manifest>
+                        <manifestEntries>
+                            <Rsrc-Main-Class>com.javarush.games.racer.RacerGame</Rsrc-Main-Class>
+                            <Class-Path>./</Class-Path>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+
             <!-- Usual compilation -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -55,6 +87,7 @@
                     <mainClass>com.javarush.games.racer.RacerGame</mainClass>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
 
